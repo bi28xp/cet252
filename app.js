@@ -56,7 +56,7 @@ app.get('/testjson', function (req, res) {
  *    HTTP/1.1 500 Internal Server Error
  */
 app.get('/proteins', function (req, res) {
-    db.all("SELECT * FROM protein", function (err, rows) {
+    db.all("SELECT * FROM protein.db", function (err, rows) {
         res.json(rows);
     });
 });
@@ -82,9 +82,9 @@ app.get('/proteins', function (req, res) {
  *      "rating": 10
  *     },
  */
-app.get('/proteins/:name', function (req, res) {
+app.get('/proteins/name', function (req, res) {
     let name = req.params.name;
-    db.all("SELECT * FROM protein WHERE name=?", [name], function (err, rows) {
+    db.all("SELECT * FROM protein.db WHERE name=?", [name], function (err, rows) {
         res.json(rows);
     });
 });
@@ -117,7 +117,7 @@ app.post('/protein', upload.array(), function (req, res, next) {
     let flavour = req.body.flavour;
     let rating = req.body.rating;
 
-    db.run("INSERT INTO protein (name, price, quality, flavour, rating) VALUES (?, ?)",
+    db.run("INSERT INTO protein.db (name, price, quality, flavour, rating) VALUES (?, ?)",
         name, price, quality, flavour, rating, 
         function (error) {
             if (error) {
@@ -146,7 +146,7 @@ app.post('/protein', upload.array(), function (req, res, next) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-app.put('/proteins/:name', upload.array(), function (req, res, next) {
+app.put('/proteins/name', upload.array(), function (req, res, next) {
     console.log(req.body.name);
     console.log(req.body.price);
     console.log(req.body.quality);
@@ -158,7 +158,7 @@ app.put('/proteins/:name', upload.array(), function (req, res, next) {
     let flavour = req.body.flavour;
     let rating = req.body.rating;
 
-    db.run("UPDATE protein SET price=?, quality=?, flavour=?, rating=? where name=?",
+    db.run("UPDATE protein.db SET price=?, quality=?, flavour=?, rating=? where name=?",
         price, quality, flavour, rating, name,
         function (error) {
             if (error) {
@@ -184,9 +184,9 @@ app.put('/proteins/:name', upload.array(), function (req, res, next) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-app.delete('/proteins/:name', function (req, res, next) {
+app.delete('/proteins/name', function (req, res, next) {
     let name = req.params.name;
-    db.run("DELETE from protein WHERE name=?",
+    db.run("DELETE from protein.db WHERE name=?",
         id,
         function (error) {
             if (error) {
