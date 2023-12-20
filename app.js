@@ -55,11 +55,13 @@ app.get('/testjson', function (req, res) {
  * @apiErrorExample {json} List error
  *    HTTP/1.1 500 Internal Server Error
  */
-app.get('/proteins', function (req, res) {
+function showAll() {
+    app.get('/proteins', function (req, res) {
     db.all("SELECT * FROM protein.db", function (err, rows) {
         res.json(rows);
     });
 });
+};
 
 
 /**
@@ -82,12 +84,13 @@ app.get('/proteins', function (req, res) {
  *      "rating": 10
  *     },
  */
-app.get('/proteins/name', function (req, res) {
+function showOne() {app.get('/proteins/name', function (req, res) {
     let name = req.params.name;
     db.all("SELECT * FROM protein.db WHERE name=?", [name], function (err, rows) {
         res.json(rows);
     });
 });
+};
  
 
 /**
@@ -105,7 +108,8 @@ app.get('/proteins/name', function (req, res) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-app.post('/protein', upload.array(), function (req, res, next) {
+function Create() {
+    app.post('/protein', upload.array(), function (req, res, next) {
     console.log(req.body.name);
     console.log(req.body.price);
     console.log(req.body.quality);
@@ -129,6 +133,7 @@ app.post('/protein', upload.array(), function (req, res, next) {
             res.end();
         });
 });
+};
 
 
 
@@ -146,7 +151,8 @@ app.post('/protein', upload.array(), function (req, res, next) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-app.put('/proteins/name', upload.array(), function (req, res, next) {
+function Update() {
+    app.put('/proteins/name', upload.array(), function (req, res, next) {
     console.log(req.body.name);
     console.log(req.body.price);
     console.log(req.body.quality);
@@ -171,6 +177,8 @@ app.put('/proteins/name', upload.array(), function (req, res, next) {
         });
 });
 
+};
+
 
 
 
@@ -184,7 +192,8 @@ app.put('/proteins/name', upload.array(), function (req, res, next) {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-app.delete('/proteins/name', function (req, res, next) {
+function deleteFood() {
+    app.delete('/proteins/name', function (req, res, next) {
     let name = req.params.name;
     db.run("DELETE from protein.db WHERE name=?",
         id,
@@ -198,6 +207,7 @@ app.delete('/proteins/name', function (req, res, next) {
             res.end();
         });
 });
+};
 
 
 
